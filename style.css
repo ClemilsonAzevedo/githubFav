@@ -12,7 +12,7 @@
   --text-color: #303030;
 
   --hue: 194;
-  --primary-color: hsl(var(--hue), 100%, 63%)
+  --primary-color: hsl(var(--hue), 100%, 63%);
 }
 
 body{
@@ -38,10 +38,6 @@ body *{
   border-width: 0;
 }
 
-button{
-  background-color: var(--primary-color);
-}
-
 #app{
   margin: 0 auto;
   padding: 2rem;
@@ -52,4 +48,34 @@ header{
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+header h1{
+  font-size: 2rem;
+  text-transform: uppercase;
+}
+
+.search{
+  display: flex;
+  align-items: center;
+}
+
+.search input{
+  height: 3.2rem;
+  border: 1px solid #ccc;
+  border-radius: .4rem 0 0 .4rem;
+  padding: 0 .8rem;
+}
+
+.search button{
+  background-color: var(--primary-color);
+  border-radius: 0 .4rem .4rem 0;
+  height: 3.2rem;
+  border: none;
+  padding: 0 1rem;
+}
+
+.search button:hover{
+  background-color: hsl(194, 79%, 54%);
+  cursor: pointer;
 }
