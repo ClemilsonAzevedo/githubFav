@@ -1,0 +1,55 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root{
+  font-size: 62.5%;
+
+  --ff-primary: 'Poppins', sans-serif;
+
+  --text-color: #303030;
+
+  --hue: 194;
+  --primary-color: hsl(var(--hue), 100%, 63%)
+}
+
+body{
+  font-size: 1.6rem;
+  color: #303030;
+  background-color: rgb(228, 230, 230);
+}
+
+body *{
+  font-family: var(--ff-primary);
+}
+
+.sr-only{
+  margin: -1;
+  overflow: hidden;
+  appearance: none;
+  padding: 0;
+  width: 1px;
+  height: 1px;
+  position: absolute;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+button{
+  background-color: var(--primary-color);
+}
+
+#app{
+  margin: 0 auto;
+  padding: 2rem;
+  max-width: 500px;
+}
+
+header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
