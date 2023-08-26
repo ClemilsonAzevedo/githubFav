@@ -1,20 +1,6 @@
 //* Nome de classes devem comecar com a letra maiuscula
 //! o root que o constructor esta a receber e o #app
-
-export class GithubUser {
-  static search(username) {
-    const endpoint = `https://api.github.com/users/${username}`
-
-    return fetch(endpoint)
-      .then((data) => data.json())
-      .then(({ login, name, public_repos, followers }) => ({
-        login,
-        name,
-        public_repos,
-        followers,
-      }))
-  }
-}
+import { GithubUser } from "./GithubUser.js"
 
 export class Favorites {
   constructor(root) {
@@ -23,19 +9,39 @@ export class Favorites {
   }
 
   load() {
-    this.entries = JSON.parse(localStorage.getItem("@github-favorites: ")) || []
+    this.entries = JSON.parse(localStorage.getItem("@github-favorites:")) || []
+  }
+
+  save() {
+    localStorage.setItem("@github-favorites:", JSON.stringify(this.entries))
   }
 
   async add(username) {
-    const user = await GithubUser.search(username)
+    try {
+      const userExists = this.entries.find( entry => entry.login === username)
 
+      if (userExists) {
+        throw new Error("User exist")
+      }
 
+      const user = await GithubUser.search(username)
+
+      if (user.login === undefined) {
+        throw new Error("User not found!")
+      }
+
+      this.entries = [user, ...this.entries]
+      this.update()
+      this.save()
+    } catch (error) {
+      alert(error.message)
+    }
   }
 
   delete(user) {
     this.entries = this.entries.filter((entry) => entry.login !== user.login)
-
     this.update()
+    this.save()
   }
 }
 
@@ -69,10 +75,10 @@ export class FavoritesView extends Favorites {
       row.querySelector(
         ".user img"
       ).src = `https://github.com/${user.login}.png`
-
       row.querySelector(".user p").textContent = user.name
-
+      row.querySelector(".user span").textContent = `@${user.login}`
       row.querySelector(".user img").alt = `imagem de ${user.name}`
+      row.querySelector(".user a").href = user.html_url
       row.querySelector(".repositories").textContent = user.public_repos
       row.querySelector(".followers").textContent = user.followers
 
@@ -99,7 +105,7 @@ export class FavoritesView extends Favorites {
               />
               <a href="https://github.com/clemilsonazevedo" target="_blank">
                 <p>Clemilson de Azevedo</p>
-                <span>Clemilsonazevedo</span>
+                <span class='name'>Clemilsonazevedo</span>
               </a>
             </td>
             <td class="repositories">3829</td>
